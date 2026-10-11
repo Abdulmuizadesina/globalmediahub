@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="GlobalMediaHub helps you discover music, explore artists, listen to previews, and access authorized full songs.">
+
+<title>GlobalMediaHub - Music Discovery</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #10101b;
+    color: #ffffff;
+    line-height: 1.6;
+}
+
+header {
+    background: #1c1b2d;
+    padding: 28px 15px;
+    text-align: center;
+    border-bottom: 2px solid #a994ff;
+}
+
+header h1 {
+    font-size: 32px;
+    color: #b6a3ff;
+}
+
+header p {
+    color: #dddddd;
+    margin-top: 5px;
+}
+
+nav {
+    background: #25243a;
+    padding: 14px 10px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 22px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #b6a3ff;
+}
+
+.container {
+    width: 92%;
+    max-width: 1100px;
+    margin: auto;
+}
+
+section {
+    padding: 35px 0;
+}
+
+h2 {
+    color: #b6a3ff;
+    margin-bottom: 15px;
+    font-size: 25px;
+}
+
+.intro {
+    text-align: center;
+    padding: 45px 10px;
+}
+
+.intro h2 {
+    font-size: 30px;
+}
+
+.intro p {
+    color: #cccccc;
+    max-width: 650px;
+    margin: auto;
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+input {
+    flex: 1;
+    min-width: 0;
+    padding: 14px;
+    border: 1px solid #49445f;
+    border-radius: 8px;
+    background: #1c1b2d;
+    color: white;
+    font-size: 16px;
+}
+
+button,
+.download-button {
+    padding: 12px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #8b70ff;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+button:hover,
+.download-button:hover {
+    background: #7053e8;
+}
+
+.message {
+    color: #cccccc;
+    margin: 12px 0;
+    overflow-wrap: anywhere;
+}
+
+.music-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.card {
+    background: #1c1b2d;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #34314b;
+    overflow-wrap: anywhere;
+}
+
+.card img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.card h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.card p {
+    color: #cccccc;
+    margin-bottom: 10px;
+}
+
+.card audio {
+    width: 100%;
+    margin: 8px 0 12px;
+}
+
+.card a {
+    margin-top: 8px;
+}
+
+.card .download-button {
+    background: #168c58;
+}
+
+.card .download-button:hover {
+    background: #107447;
+}
+
+.about-box {
+    background: #1c1b2d;
+    padding: 22px;
+    border-radius: 12px;
+    border: 1px solid #34314b;
+}
+
+.about-box p {
+    color: #dddddd;
+    margin-bottom: 12px;
+}
+
+footer {
+    background: #1c1b2d;
+    text-align: center;
+    padding: 22px 10px;
+    margin-top: 30px;
+    color: #cccccc;
+    border-top: 1px solid #34314b;
+}
+
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 26px;
+    }
+
+    nav {
+        gap: 14px;
+    }
+
+    .search-box {
+        flex-direction: column;
+    }
+
+    .search-box button {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🌍 GlobalMediaHub</h1>
+    <p>Discover Music. Explore Artists.</p>
+</header>
+
+<nav>
+    <a href="#home">Home</a>
+    <a href="#music">Search Music</a>
+    <a href="#fullSongs">Full Songs</a>
+    <a href="#about">About</a>
+</nav>
+
+<main>
+
+<section class="intro container" id="home">
+    <h2>Welcome to GlobalMediaHub</h2>
+    <p>
+        Discover music from different artists around the world.
+        Search for your favourite songs, listen to available previews,
+        and explore authorized full-song releases.
+    </p>
+</section>
+
+<section class="container" id="music">
+    <h2>🎵 Search for Music</h2>
+
+    <form class="search-box" id="musicSearchForm">
+        <input
+            type="search"
+            id="musicSearchInput"
+            placeholder="Enter song or artist name..."
+            aria-label="Search for a song or artist"
+            required
+        >
+        <button type="submit" id="searchButton">Search Music</button>
+    </form>
+
+    <p class="message" id="searchMessage" aria-live="polite">
+        Search for a song or artist to get started.
+    </p>
+
+    <div class="music-grid" id="musicResults"></div>
+</section>
+
+<section class="container" id="fullSongs">
+    <h2>⬇️ Full Songs</h2>
+
+    <p class="message">
+        Listen to and download full songs that have been uploaded
+        with permission from their copyright owners.
+    </p>
+
+    <p class="message" id="fullSongsMessage" aria-live="polite">
+        Loading available songs...
+    </p>
+
+    <div class="music-grid" id="fullMusicResults"></div>
+</section>
+
+<section class="container" id="about">
+    <h2>ℹ️ About GlobalMediaHub</h2>
+
+    <div class="about-box">
+        <p>
+            GlobalMediaHub is a music discovery website designed to help
+            visitors explore songs and artists.
+        </p>
+
+        <p>
+            Visitors can search for music, listen to available previews,
+            and open music pages provided by supported services.
+        </p>
+
+        <p>
+            Full songs are made available only when the website owner
+            has permission to distribute them.
+        </p>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    <p>&copy; <span id="currentYear"></span> GlobalMediaHub. All rights reserved.</p>
+    <p>Discover Music. Explore Artists.</p>
+</footer>
+
+<script>
+"use strict";
+
+/* ==================================
+   MUSIC SEARCH
+   Uses the public iTunes Search API.
+   ================================== */
+
+const searchForm = document.getElementById("musicSearchForm");
+const searchInput = document.getElementById("musicSearchInput");
+const searchButton = document.getElementById("searchButton");
+const searchMessage = document.getElementById("searchMessage");
+const musicResults = document.getElementById("musicResults");
+
+searchForm.addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const query = searchInput.value.trim();
+
+    if (!query) {
+        searchMessage.textContent = "Please enter a song or artist name.";
+        return;
+    }
+
+    musicResults.replaceChildren();
+    searchMessage.textContent = "Searching for music...";
+    searchButton.disabled = true;
+    searchButton.textContent = "Searching...";
+
+    try {
+        const params = new URLSearchParams({
+            term: query,
+            entity: "song",
+            country: "NG",
+            limit: "30"
+        });
+
+        const apiURL =
+            "https://itunes.apple.com/search?" + params.toString();
+
+        const response = await fetch(apiURL);
+
+        if (!response.ok) {
+            throw new Error("The music service returned an error.");
+        }
+
+        const data = await response.json();
+
+        if (!data.results || data.results.length === 0) {
+            searchMessage.textContent =
+                "No songs found. Try another song or artist.";
+            return;
+        }
+
+        searchMessage.textContent =
+            "Found " + data.results.length + " music results.";
+
+        data.results.forEach(function(song) {
+            const card = document.createElement("article");
+            card.className = "card";
+
+            const artwork = document.createElement("img");
+            artwork.src = song.artworkUrl100 || "";
+            artwork.alt = "Album artwork for " + song.trackName;
+            artwork.loading = "lazy";
+
+            artwork.addEventListener("error", function() {
+                artwork.style.display = "none";
+            });
+
+            const title = document.createElement("h3");
+            title.textContent = song.trackName || "Unknown Song";
+
+            const artist = document.createElement("p");
+            artist.textContent =
+                "Artist: " + (song.artistName || "Unknown Artist");
+
+            const album = document.createElement("p");
+            album.textContent =
+                "Album: " + (song.collectionName || "Unknown Album");
+
+            card.append(artwork, title, artist, album);
+
+            if (song.previewUrl) {
+                const previewLabel = document.createElement("p");
+                previewLabel.textContent = "Preview:";
+
+                const audio = document.createElement("audio");
+                audio.controls = true;
+                audio.preload = "none";
+                audio.src = song.previewUrl;
+                audio.setAttribute(
+                    "aria-label",
+                    "Preview " + (song.trackName || "song")
+                );
+
+                audio.addEventListener("error", function() {
+                    previewLabel.textContent =
+                        "This preview is currently unavailable.";
+                });
+
+                card.append(previewLabel, audio);
+            } else {
+                const noPreview = document.createElement("p");
+                noPreview.textContent = "No preview available.";
+                card.appendChild(noPreview);
+            }
+
+            if (song.trackViewUrl) {
+                const musicLink = document.createElement("a");
+                musicLink.href = song.trackViewUrl;
+                musicLink.target = "_blank";
+                musicLink.rel = "noopener noreferrer";
+                musicLink.className = "download-button";
+                musicLink.textContent = "Open Music Page";
+                card.appendChild(musicLink);
+            }
+
+            musicResults.appendChild(card);
+        });
+
+    } catch (error) {
+        console.error("Music search error:", error);
+
+        searchMessage.textContent =
+            "Unable to search for music right now. Check your internet connection and try again.";
+    } finally {
+        searchButton.disabled = false;
+        searchButton.textContent = "Search Music";
+    }
+});
+
+
+/* ==================================
+   FULL SONGS
+   Add your authorized MP3 files here.
+   ================================== */
+
+const fullSongs = [
+    {
+        title: "My First Song",
+        artist: "Your Artist",
+        file: "music/my-first-song.mp3"
+    },
+    {
+        title: "My Second Song",
+        artist: "Your Artist",
+        file: "music/second-song.mp3"
+    }
+];
+
+const fullMusicResults =
+    document.getElementById("fullMusicResults");
+
+const fullSongsMessage =
+    document.getElementById("fullSongsMessage");
+
+
+function displayFullSongs() {
+    fullMusicResults.replaceChildren();
+
+    if (fullSongs.length === 0) {
+        fullSongsMessage.textContent =
+            "No full songs have been added yet.";
+        return;
+    }
+
+    fullSongsMessage.textContent =
+        "Browse the available full songs below.";
+
+    fullSongs.forEach(function(song) {
+        const card = document.createElement("article");
+        card.className = "card";
+
+        const title = document.createElement("h3");
+        title.textContent = song.title;
+
+        const artist = document.createElement("p");
+        artist.textContent = "Artist: " + song.artist;
+
+        const audio = document.createElement("audio");
+        audio.controls = true;
+        audio.preload = "none";
+        audio.src = song.file;
+
+        audio.setAttribute(
+            "aria-label",
+            "Play full song: " + song.title
+        );
+
+        const status = document.createElement("p");
+        status.className = "message";
+        status.textContent = "Full song player";
+
+        audio.addEventListener("error", function() {
+            status.textContent =
+                "Song file unavailable. Check the MP3 file path.";
+        });
+
+        const download = document.createElement("a");
+        download.href = song.file;
+        download.setAttribute("download", "");
+        download.className = "download-button";
+        download.textContent = "⬇️ Download Full Song";
+
+        download.addEventListener("click", function(event) {
+            if (!song.file) {
+                event.preventDefault();
+                status.textContent = "No song file has been added.";
+            }
+        });
+
+        card.append(title, artist, audio, status, download);
+        fullMusicResults.appendChild(card);
+    });
+}
+
+displayFullSongs();
+
+
+/* ==================================
+   FOOTER YEAR
+   ================================== */
+
+document.getElementById("currentYear").textContent =
+    new Date().getFullYear();
+</script>
+
+</body>
+</html>
